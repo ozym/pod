@@ -1,0 +1,74 @@
+diff -rdu 5.6.orig/Main/podjustdoit.c 5.6/Main/podjustdoit.c
+--- 5.6.orig/Main/podjustdoit.c	2013-04-11 06:48:49.000000000 +1200
++++ 5.6/Main/podjustdoit.c	2016-08-16 14:17:57.548968297 +1200
+@@ -193,8 +193,9 @@
+ 		return 0;
+ 	}
+ 
+-        while ((direntp = readdir(dirp)) != NULL)
+-        {
++        /* scan for files first */
++        while ((direntp = readdir(dirp)) != NULL) {
++
+ 		/* filter out the "." and the ".."'s */
+                	if ((strcmp(direntp->d_name, ".") == 0) ||
+                        	(strcmp(direntp->d_name, "..") == 0))
+@@ -202,19 +203,10 @@
+ 
+ 		sprintf(full_name, "%s/%s", path, direntp->d_name);
+ 
+-
+ 		/* check for sub directory */
+-		if (is_dir(path, direntp->d_name))
+-		{
+-
+-			nlvol += scan_header_dir(full_name);
+-
+-			continue;
+-		}
+-
+-		/* build a dummy request entry based on 
+-		 * info as found in the B050 and B052 file. 
+-		 */
++		if (is_dir(path, direntp->d_name)) {
++                        continue;
++                }
+ 
+ 		if (strcmp(direntp->d_name, "B050") == 0)
+ 		{
+@@ -245,6 +237,35 @@
+ 			}
+ 
+ 		}
++
++        }
++        closedir(dirp);
++
++       	dirp = opendir(path);
++
++       	if (dirp == NULL)
++	{
++		return 0;
++	}
++
++        /* scan for sub directories */
++        while ((direntp = readdir(dirp)) != NULL)
++        {
++		/* filter out the "." and the ".."'s */
++               	if ((strcmp(direntp->d_name, ".") == 0) ||
++                       	(strcmp(direntp->d_name, "..") == 0))
++                       	continue;
++
++		sprintf(full_name, "%s/%s", path, direntp->d_name);
++
++		/* check for sub directory */
++		if (is_dir(path, direntp->d_name))
++		{
++
++			nlvol += scan_header_dir(full_name);
++
++			continue;
++		}
+ 	}
+ 
+         closedir(dirp);
