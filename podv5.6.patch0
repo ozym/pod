@@ -1,6 +1,46 @@
-diff -rdu 5.6.orig/Main/podjustdoit.c 5.6/Main/podjustdoit.c
---- 5.6.orig/Main/podjustdoit.c	2013-04-11 06:48:49.000000000 +1200
-+++ 5.6/Main/podjustdoit.c	2016-08-16 14:17:57.548968297 +1200
+diff -dru 5.6-orig/Header_phase/build_stn_path.c 5.6/Header_phase/build_stn_path.c
+--- 5.6-orig/Header_phase/build_stn_path.c	2012-03-27 09:11:13.000000000 +1300
++++ 5.6/Header_phase/build_stn_path.c	2016-08-16 15:39:09.752621691 +1200
+@@ -48,6 +48,8 @@
+ #define CTYPE_INCLUDED 1
+ #endif
+ 
++extern char *trim_str();
++
+ int build_stn_path (stationname, network_code, basepath, path)
+ char *stationname;								/* station name */
+ char *network_code;
+diff -dru 5.6-orig/Header_phase/get_chnl_hdr.c 5.6/Header_phase/get_chnl_hdr.c
+--- 5.6-orig/Header_phase/get_chnl_hdr.c	2013-04-10 06:22:56.000000000 +1200
++++ 5.6/Header_phase/get_chnl_hdr.c	2016-08-16 15:19:47.136115304 +1200
+@@ -79,6 +79,7 @@
+ 
+ 
+ char *scan_last_52();
++extern char *trim_str();
+ 
+ 
+ int get_chnl_hdr (stnname, chnlname, start, end, bottom, top)
+diff -dru 5.6-orig/Header_phase/get_stn_hdr.c 5.6/Header_phase/get_stn_hdr.c
+--- 5.6-orig/Header_phase/get_stn_hdr.c	2012-08-03 09:03:57.000000000 +1200
++++ 5.6/Header_phase/get_stn_hdr.c	2016-08-16 15:39:36.281201529 +1200
+@@ -68,6 +68,7 @@
+ #include "output.h"
+ 
+ extern char *get_net_code();
++extern char *trim_str();
+ 
+ 
+ /* ------------------------------------------------------------------------ */
+diff -dru 5.6-orig/Include/date.h 5.6/Include/date.h
+--- 5.6-orig/Include/date.h	2013-12-12 08:33:44.000000000 +1300
++++ 5.6/Include/date.h	2016-08-16 15:08:24.166006528 +1200
+@@ -1 +1 @@
+-#define V_DATE  "12/11/13  at 11:33:44"
++#define V_DATE  "08/16/16  at 14:53:52"
+diff -dru 5.6-orig/Main/podjustdoit.c 5.6/Main/podjustdoit.c
+--- 5.6-orig/Main/podjustdoit.c	2013-04-11 06:48:49.000000000 +1200
++++ 5.6/Main/podjustdoit.c	2016-08-16 15:08:24.157006670 +1200
 @@ -193,8 +193,9 @@
  		return 0;
  	}
